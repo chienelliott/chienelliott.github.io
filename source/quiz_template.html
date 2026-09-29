@@ -1,0 +1,259 @@
+<title>__TITLE__</title>
+<style>
+:root{
+ --bg:#f5f5f7; --surface:#fff; --fill:#e8e8ed; --fill2:#dfdfe4;
+ --t1:#1d1d1f; --t2:#4a4a4e; --t3:#626266;
+ --sep:rgba(0,0,0,.12); --sep2:rgba(0,0,0,.08);
+ --acc:#005ec4; --accq:rgba(0,94,196,.11); --onacc:#fff;
+ --shadow:0 1px 2px rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.06);
+ --hdr:rgba(245,245,247,.82);
+ --b1:#2261c1;--b1b:rgba(0,122,255,.12);
+ --p1:#863daa;--p1b:rgba(175,82,222,.13);
+ --tl1:#037085;--tl1b:rgba(48,176,199,.14);
+ --o1:#995700;--o1b:rgba(255,149,0,.14);
+ --ok:#1a7f3c;--okb:rgba(52,199,89,.13);
+ --bad:#c0392b;--badb:rgba(255,59,48,.11);
+ --warn:#8a6d0b;--warnb:rgba(255,204,0,.16);
+ --rs:6px;--rm:9px;--rl:13px;
+}
+@media (prefers-color-scheme: dark){
+ :root:not([data-theme="light"]){
+  color-scheme:dark;
+  --bg:#000; --surface:#1c1c1e; --fill:#2c2c2e; --fill2:#3a3a3c;
+  --t1:#f5f5f7; --t2:#b2b2b6; --t3:#939397;
+  --sep:rgba(255,255,255,.17); --sep2:rgba(255,255,255,.11);
+  --acc:#4da3ff; --accq:rgba(77,163,255,.20); --onacc:#000;
+  --shadow:0 1px 2px rgba(0,0,0,.5),0 8px 24px rgba(0,0,0,.4);
+  --hdr:rgba(0,0,0,.72);
+  --b1:#6cb2ff;--b1b:rgba(10,132,255,.20);
+  --p1:#d992fa;--p1b:rgba(191,90,242,.20);
+  --tl1:#40c8e0;--tl1b:rgba(64,200,224,.16);
+  --o1:#ff9f0a;--o1b:rgba(255,159,10,.16);
+  --ok:#41d669;--okb:rgba(48,209,88,.17);
+  --bad:#ff7b70;--badb:rgba(255,69,58,.16);
+  --warn:#ffd60a;--warnb:rgba(255,214,10,.15);
+ }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#000; --surface:#1c1c1e; --fill:#2c2c2e; --fill2:#3a3a3c;
+  --t1:#f5f5f7; --t2:#b2b2b6; --t3:#939397;
+  --sep:rgba(255,255,255,.17); --sep2:rgba(255,255,255,.11);
+  --acc:#4da3ff; --accq:rgba(77,163,255,.20); --onacc:#000;
+  --shadow:0 1px 2px rgba(0,0,0,.5),0 8px 24px rgba(0,0,0,.4);
+  --hdr:rgba(0,0,0,.72);
+  --b1:#6cb2ff;--b1b:rgba(10,132,255,.20);
+  --p1:#d992fa;--p1b:rgba(191,90,242,.20);
+  --tl1:#40c8e0;--tl1b:rgba(64,200,224,.16);
+  --o1:#ff9f0a;--o1b:rgba(255,159,10,.16);
+  --ok:#41d669;--okb:rgba(48,209,88,.17);
+  --bad:#ff7b70;--badb:rgba(255,69,58,.16);
+  --warn:#ffd60a;--warnb:rgba(255,214,10,.15);
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--t1);
+ font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+ -webkit-font-smoothing:antialiased}
+.wrap{max-width:760px;margin:0 auto;padding-inline:16px;padding-block:0 64px}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--hdr);
+ backdrop-filter:saturate(180%) blur(18px);-webkit-backdrop-filter:saturate(180%) blur(18px);
+ border-bottom:1px solid var(--sep2)}
+.hin{max-width:760px;margin:0 auto;padding:12px 16px 10px;display:flex;flex-direction:column;gap:10px}
+.top{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap}
+h1{font-size:19px;font-weight:650;letter-spacing:-.01em;margin:0;text-wrap:balance}
+.score{font-size:13px;color:var(--t2);font-variant-numeric:tabular-nums}
+.score b{color:var(--t1);font-weight:600}
+.bar{height:4px;border-radius:999px;background:var(--fill);overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--acc);transition:width .25s}
+.controls{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.chip{appearance:none;border:0;font:inherit;font-size:13px;padding:5px 11px;border-radius:999px;
+ background:var(--fill);color:var(--t2);cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--acc);color:var(--onacc)}
+.sp{flex:1}
+.btn{appearance:none;border:1px solid var(--sep);background:var(--surface);color:var(--t1);
+ font:inherit;font-size:13px;padding:5px 11px;border-radius:var(--rm);cursor:pointer}
+.chip:focus-visible,.btn:focus-visible,.opt:focus-visible{outline:none;box-shadow:0 0 0 3px var(--accq),0 0 0 1px var(--acc)}
+.intro{color:var(--t2);font-size:14px;margin:18px 0 6px;max-width:65ch}
+.intro b{color:var(--t1);font-weight:600}
+.sec{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--t3);
+ margin:26px 0 10px}
+.list{display:flex;flex-direction:column;gap:14px}
+.card{background:var(--surface);border-radius:var(--rl);box-shadow:0 0 0 1px var(--sep2),var(--shadow);
+ padding:16px 18px 18px;display:flex;flex-direction:column;gap:12px}
+.meta{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:12px;color:var(--t3)}
+.meta .n{font-weight:600;color:var(--t2);font-variant-numeric:tabular-nums;margin-right:2px}
+.pill{padding:1px 8px;border-radius:999px;font-weight:500}
+.pill.anat{color:var(--b1);background:var(--b1b)}
+.pill.epi{color:var(--p1);background:var(--p1b)}
+.pill.beyond{color:var(--o1);background:var(--o1b)}
+.pill.prof{color:var(--tl1);background:var(--tl1b)}
+.stem{font-size:15.5px;line-height:1.55;margin:0;max-width:65ch}
+.fig{margin:0;align-self:flex-start;max-width:100%}
+.fig img{display:block;max-width:100%;max-height:340px;width:auto;border-radius:var(--rs);
+ box-shadow:0 0 0 1px var(--sep2)}
+.opts{display:flex;flex-direction:column;gap:7px}
+.opt{appearance:none;text-align:left;font:inherit;font-size:14.5px;color:var(--t1);
+ background:var(--surface);border:1px solid var(--sep);border-radius:var(--rm);padding:9px 12px;
+ display:flex;gap:10px;align-items:baseline;cursor:pointer}
+.opt:hover:not(:disabled){background:var(--fill)}
+.opt .l{font-weight:600;color:var(--t3);min-width:1.1em;font-variant-numeric:tabular-nums}
+.opt:disabled{cursor:default}
+.opt.right{border-color:var(--ok);background:var(--okb)}
+.opt.right .l{color:var(--ok)}
+.opt.wrong{border-color:var(--bad);background:var(--badb)}
+.opt.wrong .l{color:var(--bad)}
+.opt.dim{opacity:.6}
+.why{background:var(--fill);border-radius:var(--rm);padding:11px 13px;font-size:14px;line-height:1.55;
+ color:var(--t2);display:flex;flex-direction:column;gap:8px}
+.why b{color:var(--t1);font-weight:600}
+.verdict{font-weight:600;font-size:13px}
+.verdict.ok{color:var(--ok)}.verdict.bad{color:var(--bad)}
+.flag{background:var(--warnb);border-radius:var(--rs);padding:8px 10px;font-size:13px;color:var(--t1)}
+.flag strong{color:var(--warn);font-weight:600}
+.empty{color:var(--t3);font-size:14px;padding:30px 0;text-align:center}
+@media (max-width:480px){.card{padding:14px 14px 16px}.stem{font-size:15px}}
+@media (prefers-reduced-motion:reduce){.bar i{transition:none}}
+</style>
+
+<header>
+ <div class="hin">
+  <div class="top">
+   <h1>__TITLE__</h1>
+   <div class="score" id="score"></div>
+  </div>
+  <div class="bar"><i id="barfill"></i></div>
+  <div class="controls" role="toolbar" aria-label="Filters">
+   <span id="lecchips" style="display:contents"></span>
+   <button class="chip" id="f-img" aria-pressed="false">Images only</button>
+   <button class="chip" id="f-slide" aria-pressed="false">Slides only</button>
+   <span class="sp"></span>
+   <button class="btn" id="shuffle">Shuffle</button>
+   <button class="btn" id="reset">Reset</button>
+  </div>
+ </div>
+</header>
+
+<main class="wrap">
+ <p class="intro" id="intro"></p>
+ <div id="out"></div>
+</main>
+
+<script>
+const QS = /*__DATA__*/;
+const IMGS = /*__IMGS__*/;
+const LECS = /*__LECS__*/;
+const SHORT = /*__SHORT__*/;
+const L = "ABCDEF";
+const KEYS = Object.keys(LECS);
+if (KEYS.length > 1) {
+  document.getElementById("lecchips").innerHTML = `<button class="chip" id="f-all" data-lec="all" aria-pressed="true">All</button>` +
+    KEYS.map(k => `<button class="chip" id="f-${k.toLowerCase()}" data-lec="${k}" aria-pressed="false">${SHORT[k]}</button>`).join("");
+}
+const state = {lec: "all", img: false, slide: false, order: null, picks: {}};
+const $ = s => document.querySelector(s);
+
+function intro() {
+  const n = k => QS.filter(q => q.lec === k).length;
+  const src = KEYS.length > 1
+    ? `from ${KEYS.length} lectures: ` + KEYS.map(k => `${LECS[k]} (${n(k)})`).join(" and ")
+    : `on ${LECS[KEYS[0]]}`;
+  $("#intro").innerHTML =
+    `<b>${QS.length} questions</b> ${src}. Choose an answer to see the explanation. ` +
+    (QS.some(q => q.beyond)
+      ? `Questions marked <b>beyond the slides</b> need material the slides do not state, and notes point out slide errors and repaired questions.`
+      : `Notes point out slide errors and repaired questions.`);
+  $("#f-slide").hidden = !QS.some(q => q.beyond);
+}
+
+function visible() {
+  const list = state.order ? state.order.map(i => QS[i]) : QS;
+  return list.filter(q => (state.lec === "all" || q.lec === state.lec)
+    && (!state.img || q.img) && (!state.slide || !q.beyond));
+}
+
+function score() {
+  const vis = visible();
+  const done = vis.filter(q => q.id in state.picks);
+  const right = done.filter(q => state.picks[q.id] === q.ans).length;
+  const pct = done.length ? Math.round(100 * right / done.length) : 0;
+  $("#score").innerHTML = done.length
+    ? `<b>${right}</b> of ${done.length} correct · ${pct}% · ${vis.length - done.length} left`
+    : `${vis.length} questions`;
+  $("#barfill").style.width = vis.length ? (100 * done.length / vis.length) + "%" : "0";
+}
+
+function card(q, n) {
+  const el = document.createElement("article");
+  el.className = "card";
+  const pills = KEYS.length > 1 ? [`<span class="pill ${q.lec.toLowerCase()}">${SHORT[q.lec]}</span>`] : [];
+  if (q.origin === "prof") pills.push(`<span class="pill prof">Lecturer's MCQ</span>`);
+  if (q.origin === "adapted") pills.push(`<span class="pill prof">Classroom session</span>`);
+  if (q.origin === "repaired") pills.push(`<span class="pill prof">${q.lec === "NRV" ? "Classroom session" : "Lecturer's MCQ"}, repaired</span>`);
+  if (q.beyond) pills.push(`<span class="pill beyond">Beyond the slides</span>`);
+  el.innerHTML =
+    `<div class="meta"><span class="n">${n}</span>${pills.join("")}<span>${q.ref}</span></div>` +
+    `<p class="stem">${q.stem}</p>` +
+    (q.img ? `<figure class="fig"><img src="${IMGS[q.img]}" alt="Figure for question ${n}"></figure>` : "") +
+    `<div class="opts">${q.opts.map((o, i) =>
+      `<button class="opt" id="o-${q.id}-${i}" data-i="${i}"><span class="l">${L[i]}</span><span>${o}</span></button>`).join("")}</div>` +
+    `<div class="why" hidden></div>`;
+  el.querySelectorAll(".opt").forEach(b => b.addEventListener("click", () => {
+    if (q.id in state.picks) return;
+    state.picks[q.id] = +b.dataset.i;
+    reveal(el, q); score();
+  }));
+  if (q.id in state.picks) reveal(el, q);
+  return el;
+}
+
+function reveal(el, q) {
+  const pick = state.picks[q.id];
+  el.querySelectorAll(".opt").forEach((b, i) => {
+    b.disabled = true;
+    if (i === q.ans) b.classList.add("right");
+    else if (i === pick) b.classList.add("wrong");
+    else b.classList.add("dim");
+  });
+  const w = el.querySelector(".why");
+  const ok = pick === q.ans;
+  w.innerHTML = `<span class="verdict ${ok ? "ok" : "bad"}">${ok ? "Correct" : "Not quite – the answer is " + L[q.ans]}</span>` +
+    `<div>${q.why}</div>` +
+    (q.flag ? `<div class="flag"><strong>Note:</strong> ${q.flag}</div>` : "");
+  w.hidden = false;
+}
+
+function section(out, title) {
+  const h = document.createElement("h2"); h.className = "sec"; h.textContent = title;
+  const list = document.createElement("div"); list.className = "list";
+  out.append(h, list);
+  return list;
+}
+
+function render() {
+  const out = $("#out"); out.innerHTML = "";
+  const vis = visible();
+  if (!vis.length) { out.innerHTML = `<p class="empty">No questions match these filters.</p>`; score(); return; }
+  let n = 0, cur = null, list = state.order ? section(out, "Shuffled order") : null;
+  for (const q of vis) {
+    if (!state.order && q.lec !== cur) { cur = q.lec; list = section(out, LECS[q.lec]); }
+    list.appendChild(card(q, ++n));
+  }
+  score();
+}
+
+document.querySelectorAll("[data-lec]").forEach(b => b.addEventListener("click", () => {
+  state.lec = b.dataset.lec;
+  document.querySelectorAll("[data-lec]").forEach(x => x.setAttribute("aria-pressed", x === b));
+  render();
+}));
+$("#f-img").addEventListener("click", e => { state.img = !state.img; e.currentTarget.setAttribute("aria-pressed", state.img); render(); });
+$("#f-slide").addEventListener("click", e => { state.slide = !state.slide; e.currentTarget.setAttribute("aria-pressed", state.slide); render(); });
+$("#shuffle").addEventListener("click", () => {
+  const idx = QS.map((_, i) => i);
+  for (let i = idx.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [idx[i], idx[j]] = [idx[j], idx[i]]; }
+  state.order = idx; render(); window.scrollTo({top: 0});
+});
+$("#reset").addEventListener("click", () => { state.picks = {}; state.order = null; render(); window.scrollTo({top: 0}); });
+
+intro(); render();
+</script>
